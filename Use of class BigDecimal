@@ -1,0 +1,53 @@
+/*#############################################
+程序介绍：判断一个大数（位数多）是否为质数
+程序重点：Java中普通数据类型无法满足大数的存储，用到了Java中的一个类
+程序语言：Java
+用到的类及方法：Java.Math.BigDecimal
+               构造方法：public BigDecimal(int val)　　
+                        public BigDecimal(String val)　
+               特殊定义：BigDecimal zero = BigDecimal.ZERO;                              //定义0
+                        BigDecimal one = BigDecimal.ONE;                                //定义1
+                        BigDecimal ten = BigDecimal.TEN;                                //定义10
+               数学计算：public BigDecimal add(BigDecimal value);                        //加法
+                        public BigDecimal subtract(BigDecimal value);                   //减法 
+                        public BigDecimal multiply(BigDecimal value);                   //乘法
+                        public BigDecimal divide(BigDecimal value);                     //除法
+                        public BigDecimal remainder(BigDecimal value);                  //取余
+                        //说明：以上运算类方法并未对原值进行改变，只是返回了一个BigDecimal对象
+               其他方法：compareTo(BigDecimal value);                                    //比较
+                        //说明1：比较函数返回int值，分别在小于、等于、大于时返回-1、0、1.
+                        //说明2：值相等但具有不同标度的两个BigDecimal对象（如，2.0 和 2.00）被认为是相等的。
+#############################################*/
+
+
+##################源代码如下###################
+package helloworld;
+import java.math.*;
+
+public class test3 {
+	public static void main(String[] args) {
+		
+		BigDecimal a=new BigDecimal("920139713");                  //构造一个BigDecimal对象，保存大数
+		BigDecimal b=new BigDecimal("1");                          //构造一个BigDecimal对象，保存除数
+		BigDecimal c=new BigDecimal("1");                          //构造一个BigDecimal对象，保存累加数
+		BigDecimal d;                                              //构造一个BigDecimal对象，保存余数
+		BigDecimal one=BigDecimal.ONE;                             //构造一个BigDecimal对象，值为1
+		BigDecimal zero=BigDecimal.ZERO;                           //构造一个BigDecimal对象，值为0
+		
+		do { 
+			b=b.add(one);                                          //除数加一，穷举尝试能否整除大数
+			c=c.add(one);                                          //累加数加一，判断除数是否超过大数，其实可以由b代替
+			d=a.remainder(b);                                      //取余数，保存到d中
+		}while((c.compareTo(a)<0)&&(d.compareTo(zero)!=0));        //判断余数是否为0且除数是否超过大数
+		
+		if(c.compareTo(a)>=0) {                                    //跳出循环是因为不满足条件1，说明不存在一个数能整除这个大数，该大数是质数
+			System.out.println(a+"是质数");                        
+		}//End if
+		else if(d.compareTo(zero)==0) {                            //跳出循环是因为不满足条件2，说明存在一个数能整除这个大数，该大数是合数
+			System.out.println(a+"是合数，它能被"+b+"整除。");
+		}End else-if
+		
+	}//End main                                                     
+
+}End class
+##################源代码结束###################
